@@ -1,0 +1,15 @@
+<?php
+$res=$this->getData('result');
+if($res["status"]!=1){
+    echo "<h1>Error:</h1><br/>";
+    echo $res["data"];
+}
+else{
+    echo "<h1>Redirecting to payment gateway....</h1>";
+    ?>
+    <script type="text/javascript">
+        window.location="<?php echo $res["data"]; ?>";
+    </script>
+    <?php
+}
+?>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Eb_Easebuzz>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Eb_Easebuzz>
+    </modules>
+</config>
