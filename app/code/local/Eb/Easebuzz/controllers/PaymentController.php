@@ -20,7 +20,7 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
         $amount = $order->getBaseGrandTotal();
         //If they have no customer id, they're a guest.
         if ($order->getCustomerId() === NULL) {
-            $fanme = $order->getBillingAddress()->getFirstname();
+            $fname = $order->getBillingAddress()->getFirstname();
             $lanme = $order->getBillingAddress()->getLastname();
             $phno = $order->getBillingAddress()->getTelephone();
             $email = $order->getBillingAddress()->getEmail();
