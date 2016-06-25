@@ -118,9 +118,9 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
 
     /**
      * Displays the pay page.
-     * 
-     * @param unknown $params        	
-     * @param unknown $salt        	
+     *
+     * @param unknown $params
+     * @param unknown $salt
      * @throws Exception
      */
     public function easepay_page($params, $salt, $env = 'test') {
@@ -183,9 +183,9 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
 
     /**
      * Returns the pay page url or the merchant js file.
-     * 
-     * @param unknown $params        	
-     * @param unknown $salt        	
+     *
+     * @param unknown $params
+     * @param unknown $salt
      * @throws Exception
      * @return Ambigous <multitype:number string , multitype:number Ambigous <boolean, string> >
      */
@@ -204,9 +204,9 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
 
     /**
      * Returns the response object.
-     * 
-     * @param unknown $params        	
-     * @param unknown $salt        	
+     *
+     * @param unknown $params
+     * @param unknown $salt
      * @throws Exception
      * @return number
      */
@@ -264,10 +264,12 @@ class Payment {
     }
 
     public function pay($params = null) {
-        if (is_array($params))
-            foreach ($params as $key => $value)
+        if (is_array($params)){
+            foreach ($params as $key => $value){
                 $this->params[$key] = $value;
-
+                $this->params[$key] = trim($value);
+            }
+        }
         $error = $this->check_params();
 
         if ($error === true) {
@@ -420,7 +422,7 @@ class Curl {
     }
 
     function __destruct() {
-        
+
     }
 
     private function getHost($url) {
@@ -576,11 +578,11 @@ class Cookies {
     private $cookies;
 
     function __construct() {
-        
+
     }
 
     function __destruct() {
-        
+
     }
 
     public function add($cookie) {
