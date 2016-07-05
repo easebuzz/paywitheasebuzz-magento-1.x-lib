@@ -4,11 +4,7 @@
 
 class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
 
-    // The redirect action is triggered when someone places an order
-//    public function getCheckout()
-//    {
-//        return Mage::getSingleton('checkout/session');
-//    }
+ 
     public function redirectAction() {
         $order = Mage::getModel('sales/order')->load(Mage::getSingleton('checkout/session')->getLastOrderId());
         $orderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
@@ -54,13 +50,13 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
         $this->renderLayout();
     }
 
-    // The response action is triggered when your gateway sends back a response after processing the customer's payment
+    // The response action is triggered when the gateway sends back a response after processing the customer's payment
     public function responseAction() {
         if ($this->getRequest()->isPost()) {
             if ($this->getRequest()->getPost("status") == "success" && $this->getRequest()->getPost("udf1")) {
                 $orderId = $this->getRequest()->getPost("udf1");
                 $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
-                $order->setState(Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW, true, 'Payment Success.');
+                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, 'Payment Success.');
                 $order->save();
 
                 Mage::getSingleton('checkout/session')->unsQuoteId();
@@ -73,30 +69,6 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
             Mage_Core_Controller_Varien_Action::_redirect('checkout/onepage/error', array('_secure' => false));
         }
 
-//            $validated = true;
-//            $orderId = '123'; // Generally sent by gateway
-//
-//            if ($validated) {
-//                // Payment was successful, so update the order's state, send order email and move to the success page
-//                $order = Mage::getModel('sales/order');
-//                $order->loadByIncrementId($orderId);
-//                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, 'Gateway has authorized the payment.');
-//
-//                $order->sendNewOrderEmail();
-//                $order->setEmailSent(true);
-//
-//                $order->save();
-//
-//                Mage::getSingleton('checkout/session')->unsQuoteId();
-//
-//                Mage_Core_Controller_Varien_Action::_redirect('checkout/onepage/success', array('_secure' => true));
-//            } else {
-//                // There is a problem in the response we got
-//                $this->cancelAction();
-//                Mage_Core_Controller_Varien_Action::_redirect('checkout/onepage/failure', array('_secure' => true));
-//            }
-//        } else
-//            Mage_Core_Controller_Varien_Action::_redirect('');
     }
 
     // The cancel action is triggered when an order is to be cancelled
