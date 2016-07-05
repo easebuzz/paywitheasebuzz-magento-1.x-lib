@@ -1,10 +1,6 @@
 <?php
 
-/*
-  Mygateway Payment Controller
-  By: Junaid Bhura
-  www.junaidbhura.com
- */
+
 
 class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
 
