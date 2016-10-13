@@ -62,8 +62,22 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
                 Mage::getSingleton('checkout/session')->unsQuoteId();
                 Mage_Core_Controller_Varien_Action::_redirect('checkout/onepage/success', array('_secure' => false));
             } else {
-                $this->cancelAction();
-                Mage_Core_Controller_Varien_Action::_redirect('checkout/onepage/failure', array('_secure' => true));
+                 $orderId = $this->getRequest()->getPost("udf1");
+		               $cart = Mage::getSingleton('checkout/cart');
+                 $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+                 $items = $order->getItemsCollection();
+                 foreach ($items as $item) {
+                    try {
+                        $cart->addOrderItem($item);
+                    } catch (Mage_Core_Exception $e) {
+                        $session->addError($this->__($e->getMessage()));
+                        Mage::logException($e);
+                        continue;
+                    }
+                }
+                $cart->save();
+                Mage::getSingleton('core/session')->addError('Your payment failed. Please try again later');
+                $this->_redirect('checkout/cart');   
             }
         } else {
             Mage_Core_Controller_Varien_Action::_redirect('checkout/onepage/error', array('_secure' => false));
