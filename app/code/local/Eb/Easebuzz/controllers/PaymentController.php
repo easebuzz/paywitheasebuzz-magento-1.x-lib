@@ -57,6 +57,8 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
                 $orderId = $this->getRequest()->getPost("udf1");
                 $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
                 $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, 'Payment Success.');
+		$order->sendNewOrderEmail();
+                $order->setEmailSent(true);
                 $order->save();
 
                 Mage::getSingleton('checkout/session')->unsQuoteId();
