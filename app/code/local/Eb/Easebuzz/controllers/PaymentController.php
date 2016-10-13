@@ -65,6 +65,7 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
                  $orderId = $this->getRequest()->getPost("udf1");
 		               $cart = Mage::getSingleton('checkout/cart');
                  $order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+		 $order->cancel()->setState(Mage_Sales_Model_Order::STATE_CANCELED, true, 'Payment failed.')->save();
                  $items = $order->getItemsCollection();
                  foreach ($items as $item) {
                     try {
