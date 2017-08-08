@@ -45,6 +45,8 @@ class Eb_Easebuzz_PaymentController extends Mage_Core_Controller_Front_Action {
             'surl' => $url,
             'furl' => $url), $msalt, $env);
         $this->loadLayout();
+	$order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true, 'Pending Payment.');
+        $order->save();
         $block = $this->getLayout()->createBlock('Mage_Core_Block_Template', 'easebuzz', array('template' => 'easebuzz/redirect.phtml'))->setData('result', $result);
         $this->getLayout()->getBlock('content')->append($block);
         $this->renderLayout();
